@@ -1,5 +1,8 @@
 # sveltekit-satori
 
+<img width="612" alt="image" src="https://github.com/user-attachments/assets/40f2e36c-9615-4a93-ad5e-ccdd3b4f53bc" />
+
+
 Uses [Satori](https://github.com/vercel/satori) to generate social images from a Svelte component.
 
 ## Developing
