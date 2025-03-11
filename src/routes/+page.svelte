@@ -1,17 +1,22 @@
 <script lang="ts">
+	import { preventDefault } from 'svelte/legacy';
+
 	import { page } from '$app/stores';
 	import Image from '../lib/Dots.svelte';
 	import { parseQuery } from '$lib/parse';
 	import '../app.css';
 	import { goto } from '$app/navigation';
 
-	/** @type {import("./$types").PageData} */
-	export let data;
+	type Props = {
+		data: import('./$types').PageData;
+	};
 
-	$: ({ width, height } = parseQuery($page.url.searchParams));
+	let { data }: Props = $props();
 
-	$: title = `Dynamic Svelte social image - "${data.seed}"`;
-	$: description = 'This card was generated from a Svelte component.';
+	let { width, height } = $derived(parseQuery($page.url.searchParams));
+
+	let title = $derived(`Dynamic Svelte social image - "${data.seed}"`);
+	let description = $derived('This card was generated from a Svelte component.');
 </script>
 
 <svelte:head>
@@ -36,11 +41,11 @@
 {/key}
 <form
 	action="/"
-	on:submit|preventDefault={(e) => {
+	onsubmit={preventDefault((e) => {
 		const data = new FormData(e.target);
 		const searchParams = new URLSearchParams(data);
 		goto(`/?${searchParams.toString()}`, { keepfocus: true, noscroll: true });
-	}}
+	})}
 >
 	<input type="hidden" name="seed" value={data.nextSeed} />
 	<button>New seed</button>

@@ -1,5 +1,11 @@
 <script>
-	export let message = 'Try setting a ?message query param';
+    /**
+     * @typedef {Object} Props
+     * @property {string} [message]
+     */
+
+    /** @type {Props} */
+    let { message = 'Try setting a ?message query param' } = $props();
 </script>
 
 <div

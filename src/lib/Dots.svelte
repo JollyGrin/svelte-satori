@@ -2,11 +2,23 @@
 	import colors from 'nice-color-palettes';
 	import seedrandom from 'seedrandom';
 
-	export let count = 300;
-	export let width = 750;
-	export let height = 393;
-	export let seed = 'xylophone';
-	export let satori = false;
+	/**
+	 * @typedef {Object} Props
+	 * @property {number} [count]
+	 * @property {number} [width]
+	 * @property {number} [height]
+	 * @property {string} [seed]
+	 * @property {boolean} [satori]
+	 */
+
+	/** @type {Props} */
+	let {
+		count = 300,
+		width = 750,
+		height = 393,
+		seed = 'xylophone',
+		satori = false
+	} = $props();
 
 	const rng = seedrandom(seed);
 	let palette = randomItem(colors);
