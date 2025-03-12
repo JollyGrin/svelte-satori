@@ -193,7 +193,7 @@
 	<!-- Footer -->
 	<div style="display: flex; position: absolute; bottom: 10px; left: 20px;">
 		<span style="display: flex; font-size: 12px; font-weight: 400; color: #999;">
-			Powered by SvelteKit &amp; Satori • Seed: {seed}
+			Seed: {seed}
 		</span>
 	</div>
 </div>
