@@ -138,23 +138,20 @@
 			<div
 				style="display: flex; position: absolute; top: 70%; left: 40%; width: 15px; height: 15px; background-color: #FF55FF; z-index: 2;"
 			></div>
+		</div>
 
-			<!-- Attendee name and ticket number -->
-			<div
-				style="display: flex; width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center; z-index: 10; padding: 20px;"
-			>
-				<span
-					style="display: flex; width: 80%; justify-content: center; font-size: 72px; font-weight: 900; color: #000000; background-color: rgba(255,255,255,0.8); border-radius: 10px; padding: 10px; text-align: center; margin-bottom: 20px;"
-				>
-					{attendeeName}
-				</span>
+		<!-- Attendee name - positioned absolutely -->
+		<div
+			style="display: flex; position: absolute; top: 180px; left: 50%; transform: translateX(-50%); background-color: #FFFFFF; color: #000000; font-size: 48px; font-weight: 700; padding: 10px; border-radius: 5px; z-index: 20; width: 60%; justify-content: center; text-align: center;"
+		>
+			{attendeeName}
+		</div>
 
-				<span
-					style="display: flex; width: 60%; justify-content: center; font-size: 40px; font-weight: 800; color: #000000; background-color: rgba(255,255,255,0.8); border-radius: 10px; padding: 10px; text-align: center;"
-				>
-					{ticketNumber}
-				</span>
-			</div>
+		<!-- Ticket number - positioned absolutely -->
+		<div
+			style="display: flex; position: absolute; top: 280px; left: 50%; transform: translateX(-50%); background-color: #FFFFFF; color: #000000; font-size: 32px; font-weight: 700; padding: 10px; border-radius: 5px; z-index: 20; width: 50%; justify-content: center; text-align: center;"
+		>
+			{ticketNumber}
 		</div>
 
 		<!-- Side information labels -->
