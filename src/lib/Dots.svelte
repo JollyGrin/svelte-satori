@@ -1,5 +1,4 @@
 <script>
-	import colors from 'nice-color-palettes';
 	import seedrandom from 'seedrandom';
 
 	/**
@@ -33,32 +32,20 @@
 	} = $props();
 
 	const rng = seedrandom(seed);
-	let palette = randomItem(colors);
-
-	const bg = palette[palette.length - 1];
-	const accentColor = palette[0];
-	palette = palette.slice(0, -1);
-
-	const dotCount = 150;
-	const sizes = [1, 2, 3, 5, 8];
-
-	let points = new Array(dotCount).fill(null).map(() => ({
-		x: random(width, 0),
-		y: random(height, 0),
-		color: randomItem(palette),
-		size: randomItem(sizes)
-	}));
-
-	// Add a few larger highlight dots for visual interest
-	for (let i = 0; i < 5; i++) {
-		points.push({
-			x: random(width, 0),
-			y: random(height, 0),
-			color: accentColor,
-			size: random(15, 10)
-		});
-	}
-
+	
+	// Cyber colors
+	const cyberColors = [
+		'#00ff41', // Matrix green
+		'#39ff14', // Neon green
+		'#0ff0fc', // Cyan
+		'#ff00ff', // Magenta
+		'#ff3131'  // Red
+	];
+	
+	const bgColor = '#0a0a16'; // Dark blue-black background
+	const primaryColor = cyberColors[Math.floor(rng() * cyberColors.length)];
+	const secondaryColor = cyberColors[(Math.floor(rng() * cyberColors.length) + 2) % cyberColors.length];
+	
 	/**
 	 * @param {number} upper
 	 * @param {number} lower
@@ -67,18 +54,89 @@
 		const result = rng() * (upper - lower) + lower;
 		return result;
 	}
-
-	/**
-	 * @param {any[]} arr
-	 */
-	function randomItem(arr) {
-		const idx = Math.floor(random(arr.length, 0));
-		return arr[idx];
+	
+	// Generate grid lines
+	function generateGridLines() {
+		const horizontalLines = [];
+		const verticalLines = [];
+		const horizontalCount = 12;
+		const verticalCount = 20;
+		
+		// Horizontal grid lines
+		for (let i = 0; i <= horizontalCount; i++) {
+			const y = (height / horizontalCount) * i;
+			horizontalLines.push({
+				x1: 0,
+				y1: y,
+				x2: width,
+				y2: y,
+				opacity: i % 3 === 0 ? 0.4 : 0.1
+			});
+		}
+		
+		// Vertical grid lines
+		for (let i = 0; i <= verticalCount; i++) {
+			const x = (width / verticalCount) * i;
+			verticalLines.push({
+				x1: x,
+				y1: 0,
+				x2: x,
+				y2: height,
+				opacity: i % 4 === 0 ? 0.4 : 0.1
+			});
+		}
+		
+		return { horizontalLines, verticalLines };
 	}
+	
+	const { horizontalLines, verticalLines } = generateGridLines();
+	
+	// Generate digital noise
+	function generateDigitalNoise() {
+		const noiseElements = [];
+		const noiseCount = 150;
+		
+		for (let i = 0; i < noiseCount; i++) {
+			const x = random(width, 0);
+			const y = random(height, 0);
+			const size = random(3, 1);
+			const opacity = random(0.5, 0.1);
+			
+			noiseElements.push({ x, y, size, opacity });
+		}
+		
+		return noiseElements;
+	}
+	
+	const noiseElements = generateDigitalNoise();
+	
+	// Generate binary code
+	function generateBinaryCode() {
+		const lines = [];
+		const lineCount = 5;
+		const charCount = 30;
+		
+		for (let i = 0; i < lineCount; i++) {
+			let binary = '';
+			for (let j = 0; j < charCount; j++) {
+				binary += Math.floor(random(2, 0));
+			}
+			
+			lines.push({
+				text: binary,
+				x: random(width - 100, 50),
+				y: random(height - 50, 50),
+				opacity: random(0.4, 0.1),
+				size: random(14, 8)
+			});
+		}
+		
+		return lines;
+	}
+	
+	const binaryLines = generateBinaryCode();
 
-	/**
-	 * Generates fake barcode lines for visual effect
-	 */
+	// Generate barcode for ticket
 	function generateBarcodeLines() {
 		const lines = [];
 		const lineCount = 30;
@@ -99,17 +157,107 @@
 	}
 
 	const { lines: barcodeLines, totalWidth: barcodeWidth } = generateBarcodeLines();
+	
+	// Generate a simple circuit pattern
+	function generateCircuitLines() {
+		const lines = [];
+		const points = [];
+		const lineCount = 8;
+		const pointCount = 4;
+		
+		// Generate random circuit points
+		for (let i = 0; i < pointCount; i++) {
+			points.push({
+				x: random(width * 0.8, width * 0.2),
+				y: random(height * 0.8, height * 0.2)
+			});
+		}
+		
+		// Connect points with lines
+		for (let i = 0; i < lineCount; i++) {
+			const start = points[i % points.length];
+			const end = points[(i + 1) % points.length];
+			
+			// Add some randomization for more circuit-like appearance
+			const midX = (start.x + end.x) / 2 + random(40, -40);
+			const midY = (start.y + end.y) / 2 + random(40, -40);
+			
+			lines.push({
+				x1: start.x,
+				y1: start.y,
+				x2: midX,
+				y2: start.y,
+				color: i % 2 === 0 ? primaryColor : secondaryColor,
+				opacity: random(0.8, 0.4)
+			});
+			
+			lines.push({
+				x1: midX,
+				y1: start.y,
+				x2: midX,
+				y2: midY,
+				color: i % 2 === 0 ? primaryColor : secondaryColor,
+				opacity: random(0.8, 0.4)
+			});
+			
+			lines.push({
+				x1: midX,
+				y1: midY,
+				x2: midX,
+				y2: end.y,
+				color: i % 2 === 0 ? primaryColor : secondaryColor,
+				opacity: random(0.8, 0.4)
+			});
+			
+			lines.push({
+				x1: midX,
+				y1: end.y,
+				x2: end.x,
+				y2: end.y,
+				color: i % 2 === 0 ? primaryColor : secondaryColor,
+				opacity: random(0.8, 0.4)
+			});
+		}
+		
+		return { lines, points };
+	}
+	
+	const { lines: circuitLines, points: circuitPoints } = generateCircuitLines();
 </script>
 
 <div
 	class="ticket-container"
-	style="max-width: {width}px; background-color: {bg};"
+	style="max-width: {width}px; background-color: {bgColor};"
 	style:height={satori ? `${height}px` : undefined}
 >
-	<!-- Background dots effect -->
-	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" class="background-dots">
-		{#each points as { x, y, color, size }}
-			<circle cx={x} cy={y} r={size} fill={color} />
+	<!-- Background grid effect -->
+	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" class="background-grid">
+		<!-- Grid lines -->
+		{#each horizontalLines as { x1, y1, x2, y2, opacity }}
+			<line {x1} {y1} {x2} {y2} stroke={primaryColor} stroke-opacity={opacity} />
+		{/each}
+		
+		{#each verticalLines as { x1, y1, x2, y2, opacity }}
+			<line {x1} {y1} {x2} {y2} stroke={primaryColor} stroke-opacity={opacity} />
+		{/each}
+		
+		<!-- Digital noise -->
+		{#each noiseElements as { x, y, size, opacity }}
+			<rect {x} {y} width={size} height={size} fill={secondaryColor} fill-opacity={opacity} />
+		{/each}
+		
+		<!-- Circuit pattern -->
+		{#each circuitLines as { x1, y1, x2, y2, color, opacity }}
+			<line {x1} {y1} {x2} {y2} stroke={color} stroke-opacity={opacity} stroke-width="1.5" />
+		{/each}
+		
+		{#each circuitPoints as { x, y }}
+			<circle cx={x} cy={y} r="3" fill={primaryColor} />
+		{/each}
+		
+		<!-- Binary code -->
+		{#each binaryLines as { text, x, y, opacity, size }}
+			<text {x} {y} fill={primaryColor} font-family="monospace" font-size={size} opacity={opacity}>{text}</text>
 		{/each}
 	</svg>
 
@@ -120,13 +268,13 @@
 				{#if avatarUrl}
 					<img src={avatarUrl} alt={attendeeName} class="avatar" />
 				{:else}
-					<div class="avatar-placeholder" style="background-color: {accentColor}">
+					<div class="avatar-placeholder" style="border: 2px solid {primaryColor}">
 						{attendeeName.charAt(0)}
 					</div>
 				{/if}
 			</div>
 			<div class="attendee-info">
-				<h2 class="attendee-name">{attendeeName}</h2>
+				<h2 class="attendee-name" style="color: {primaryColor};">{attendeeName}</h2>
 				<p class="attendee-username">{attendeeUsername}</p>
 			</div>
 		</div>
@@ -141,56 +289,48 @@
 
 			<div class="ticket-barcode">
 				<svg width={barcodeWidth} height="60" viewBox="0 0 {barcodeWidth} 60">
-					{#each barcodeLines as { x, height, width }}
-						<rect {x} y={0} {width} {height} fill="#000" />
+					{#each barcodeLines as { x, width, height }}
+						<rect {x} y={0} {width} {height} fill={primaryColor} />
 					{/each}
 				</svg>
-				<p class="ticket-number">{ticketNumber}</p>
+				<p class="ticket-number" style="color: {bgColor};">{ticketNumber}</p>
 			</div>
 
 			<!-- Social icons in the style of the inspiration -->
 			<div class="social-icons">
-				<div class="icon">#</div>
-				<div class="icon">○</div>
-				<div class="icon">○</div>
+				<div class="icon" style="border: 1px solid {primaryColor}; color: {primaryColor};">#</div>
+				<div class="icon" style="border: 1px solid {primaryColor}; color: {primaryColor};">○</div>
+				<div class="icon" style="border: 1px solid {primaryColor}; color: {primaryColor};">○</div>
 			</div>
 		</div>
 	</div>
 
-	<!-- Perforation line for the ticket -->
-	<div class="perforation-line">
-		{#each Array(20) as _, i}
-			<div class="perforation-dot"></div>
-		{/each}
-	</div>
+	<!-- Glitch effect separator line -->
+	<div class="glitch-line" style="background-color: {primaryColor};"></div>
 </div>
 
 <style>
 	.ticket-container {
 		position: relative;
-		border-radius: 12px;
+		border-radius: 8px;
 		overflow: hidden;
-		box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
 		font-family:
-			system-ui,
-			-apple-system,
-			BlinkMacSystemFont,
-			'Segoe UI',
-			Roboto,
-			sans-serif;
+			'Courier New',
+			monospace;
 		display: flex;
 		flex-direction: column;
 		color: white;
+		border: 1px solid rgba(255, 255, 255, 0.1);
 	}
 
-	.background-dots {
+	.background-grid {
 		position: absolute;
 		top: 0;
 		left: 0;
 		width: 100%;
 		height: 100%;
 		z-index: 0;
-		opacity: 0.8;
 	}
 
 	.ticket-content {
@@ -200,6 +340,7 @@
 		padding: 24px;
 		height: 100%;
 		gap: 24px;
+		backdrop-filter: blur(2px);
 	}
 
 	.attendee-section {
@@ -213,9 +354,9 @@
 	.avatar-container {
 		width: 80px;
 		height: 80px;
-		border-radius: 50%;
+		border-radius: 4px;
 		overflow: hidden;
-		border: 3px solid rgba(255, 255, 255, 0.8);
+		background-color: rgba(0, 0, 0, 0.3);
 	}
 
 	.avatar {
@@ -233,6 +374,7 @@
 		font-size: 32px;
 		font-weight: bold;
 		color: white;
+		background-color: rgba(0, 0, 0, 0.5);
 	}
 
 	.attendee-info {
@@ -245,11 +387,13 @@
 		font-size: 24px;
 		font-weight: bold;
 		margin: 0;
+		text-transform: uppercase;
+		letter-spacing: 1px;
 	}
 
 	.attendee-username {
 		font-size: 16px;
-		opacity: 0.9;
+		opacity: 0.7;
 		margin: 0;
 	}
 
@@ -270,29 +414,31 @@
 		font-size: 18px;
 		font-weight: bold;
 		margin: 0;
+		text-transform: uppercase;
+		letter-spacing: 1px;
 	}
 
 	.event-datetime,
 	.event-location {
 		font-size: 14px;
 		margin: 0;
-		opacity: 0.9;
+		opacity: 0.7;
 	}
 
 	.ticket-barcode {
 		display: flex;
 		flex-direction: column;
 		align-items: center;
-		background-color: #ffffff;
+		background-color: rgba(255, 255, 255, 0.9);
 		padding: 8px;
-		border-radius: 6px;
+		border-radius: 2px;
 		align-self: flex-end;
 	}
 
 	.ticket-number {
 		font-size: 12px;
-		color: #000;
 		margin: 4px 0 0 0;
+		font-weight: bold;
 	}
 
 	.social-icons {
@@ -305,29 +451,40 @@
 	.icon {
 		width: 32px;
 		height: 32px;
-		background-color: #000;
-		color: white;
-		border-radius: 50%;
+		background-color: transparent;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		font-weight: bold;
+		border-radius: 4px;
 	}
 
-	.perforation-line {
-		display: flex;
-		justify-content: space-between;
-		padding: 0 12px;
-		position: relative;
+	.glitch-line {
+		height: 2px;
 		margin-top: auto;
+		width: 100%;
+		position: relative;
+		overflow: hidden;
 	}
-
-	.perforation-dot {
-		width: 8px;
-		height: 8px;
-		background-color: white;
-		border-radius: 50%;
-		opacity: 0.6;
+	
+	.glitch-line::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+		width: 100%;
+		background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.8) 50%, transparent 100%);
+		animation: glitch 3s infinite linear;
+	}
+	
+	@keyframes glitch {
+		0% {
+			transform: translateX(-100%);
+		}
+		100% {
+			transform: translateX(100%);
+		}
 	}
 
 	@media (max-width: 600px) {
