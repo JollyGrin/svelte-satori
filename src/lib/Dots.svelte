@@ -235,7 +235,7 @@
 
 <div
 	class="ticket-container"
-	style="max-width: {width}px; background-color: {bgColor}; display: flex; flex-direction: column;"
+	style="max-width: {width}px; background-color: {bgColor}; display: flex; flex-direction: column; padding: 20px; font-family: 'Source Serif Pro', monospace;"
 	style:height={satori ? `${height}px` : undefined}
 >
 	<!-- Background grid effect -->
@@ -269,22 +269,22 @@
 		{/each}
 	</svg>
 
-	<div class="ticket-content" style="display: flex; justify-content: space-between;">
+	<div class="ticket-content" style="display: flex; justify-content: space-between; position: relative; z-index: 5; padding: 24px;">
 		<!-- Left section - Avatar and Attendee info -->
 		<div
 			class="attendee-section"
-			style="display: flex; flex-direction: column; align-items: center;"
+			style="display: flex; flex-direction: column; align-items: center; padding: 10px;"
 		>
 			<div
 				class="avatar-container"
-				style="display: flex; justify-content: center; align-items: center;"
+				style="display: flex; justify-content: center; align-items: center; width: 80px; height: 80px; border-radius: 4px; overflow: hidden; background-color: rgba(0,0,0,0.3);"
 			>
 				{#if avatarUrl}
-					<img src={avatarUrl} alt={attendeeName} class="avatar" style="display: flex;" />
+					<img src={avatarUrl} alt={attendeeName} class="avatar" style="display: flex; width: 100%; height: 100%; object-fit: cover;" />
 				{:else}
 					<div
 						class="avatar-placeholder"
-						style="border: 2px solid {primaryColor}; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;"
+						style="border: 2px solid {primaryColor}; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; font-size: 32px; font-weight: bold; color: white; background-color: rgba(0,0,0,0.5);"
 					>
 						{attendeeName.charAt(0)}
 					</div>
@@ -292,57 +292,57 @@
 			</div>
 			<div
 				class="attendee-info"
-				style="display: flex; flex-direction: column; align-items: center;"
+				style="display: flex; flex-direction: column; align-items: center; margin-top: 10px; gap: 4px;"
 			>
-				<h2 class="attendee-name" style="display: flex; color: {primaryColor}; margin: 0;">
+				<div class="attendee-name" style="display: flex; color: {primaryColor}; margin: 0; font-size: 24px; font-weight: bold;">
 					{attendeeName}
-				</h2>
-				<p class="attendee-username" style="display: flex; margin: 0;">{attendeeUsername}</p>
+				</div>
+				<div class="attendee-username" style="display: flex; margin: 0; font-size: 16px; color: white;">{attendeeUsername}</div>
 			</div>
 		</div>
 
 		<!-- Right section - Event details and barcode -->
-		<div class="event-section" style="display: flex; flex-direction: column; align-items: center;">
+		<div class="event-section" style="display: flex; flex-direction: column; align-items: center; padding: 10px;">
 			<div
 				class="event-details"
-				style="display: flex; flex-direction: column; align-items: center;"
+				style="display: flex; flex-direction: column; align-items: center; margin-bottom: 10px; gap: 4px;"
 			>
-				<h3 class="event-name" style="display: flex; margin: 0;">{eventName}</h3>
-				<p class="event-datetime" style="display: flex; margin: 0;">{eventDate}</p>
-				<p class="event-location" style="display: flex; margin: 0;">{eventLocation}</p>
+				<div class="event-name" style="display: flex; margin: 0; font-size: 22px; font-weight: bold; color: white;">{eventName}</div>
+				<div class="event-datetime" style="display: flex; margin: 0; font-size: 16px; color: white;">{eventDate}</div>
+				<div class="event-location" style="display: flex; margin: 0; font-size: 14px; color: white;">{eventLocation}</div>
 			</div>
 
 			<div
 				class="ticket-barcode"
-				style="display: flex; flex-direction: column; align-items: center;"
+				style="display: flex; flex-direction: column; align-items: center; margin-top: 10px;"
 			>
-				<svg width={barcodeWidth} height="60" viewBox="0 0 {barcodeWidth} 60">
+				<svg width={barcodeWidth} height="60" viewBox="0 0 {barcodeWidth} 60" style="display: flex;">
 					{#each barcodeLines as { x, width, height }}
 						<rect {x} y={0} {width} {height} fill={primaryColor} />
 					{/each}
 				</svg>
-				<p class="ticket-number" style="display:flex; color: {bgColor}; margin: 0;">
+				<div class="ticket-number" style="display:flex; color: white; margin-top: 5px; font-size: 14px;">
 					{ticketNumber}
-				</p>
+				</div>
 			</div>
 
 			<!-- Social icons in the style of the inspiration -->
-			<div class="social-icons" style="display: flex; justify-content: space-between;">
+			<div class="social-icons" style="display: flex; justify-content: space-between; margin-top: 15px; gap: 10px;">
 				<div
 					class="icon"
-					style="border: 1px solid {primaryColor}; color: {primaryColor}; display: flex; justify-content: center; align-items: center;"
+					style="border: 1px solid {primaryColor}; color: {primaryColor}; display: flex; justify-content: center; align-items: center; width: 30px; height: 30px; border-radius: 4px;"
 				>
 					#
 				</div>
 				<div
 					class="icon"
-					style="border: 1px solid {primaryColor}; color: {primaryColor}; display: flex; justify-content: center; align-items: center;"
+					style="border: 1px solid {primaryColor}; color: {primaryColor}; display: flex; justify-content: center; align-items: center; width: 30px; height: 30px; border-radius: 4px;"
 				>
 					○
 				</div>
 				<div
 					class="icon"
-					style="border: 1px solid {primaryColor}; color: {primaryColor}; display: flex; justify-content: center; align-items: center;"
+					style="border: 1px solid {primaryColor}; color: {primaryColor}; display: flex; justify-content: center; align-items: center; width: 30px; height: 30px; border-radius: 4px;"
 				>
 					○
 				</div>
@@ -351,7 +351,7 @@
 	</div>
 
 	<!-- Glitch effect separator line -->
-	<div class="glitch-line" style="background-color: {primaryColor}; display: flex;"></div>
+	<div class="glitch-line" style="background-color: {primaryColor}; display: flex; height: 2px; width: 100%; margin-top: 10px;"></div>
 </div>
 
 <style>
@@ -360,7 +360,7 @@
 		border-radius: 8px;
 		overflow: hidden;
 		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-		font-family: 'Courier New', monospace;
+		font-family: 'Source Serif Pro', monospace;
 		display: flex;
 		flex-direction: column;
 		color: white;
