@@ -19,10 +19,10 @@ export async function componentToPng(component, props, height, width) {
 	// Use the Svelte 4+ render API from svelte/server
 	const result = render(component, { props });
 
-	// Create a react node from the HTML and CSS
-	// @ts-ignore - The types between satori-html and satori have some incompatibilities
+	// @ts-ignore - The types between satori-html and ReactNode have incompatibilities
+	// but the runtime behavior is compatible
 	const markup = toReactNode(
-		`${result.html}<style>${result.css?.code || ''}</style>`
+		`<div style="display: flex;">${result.html}</div>`
 	);
 	
 	// Define default styles to ensure all divs have an explicit display property
@@ -45,6 +45,7 @@ export async function componentToPng(component, props, height, width) {
 		}
 	};
 	
+	// @ts-ignore - The markup object is compatible with satori but TypeScript doesn't recognize it
 	const svg = await satori(markup, {
 		fonts: [
 			{

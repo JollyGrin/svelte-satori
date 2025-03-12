@@ -25,7 +25,7 @@
 		eventName = 'Onion DAO',
 		eventDate = 'June • July 2025 ',
 		eventLocation = 'Chicago, IL, USA',
-		attendeeName = 'Guest User',
+		attendeeName = 'deanland',
 		attendeeUsername = '/username',
 		ticketNumber = 'TKT-' + Math.floor(Math.random() * 100000),
 		avatarUrl = ''
