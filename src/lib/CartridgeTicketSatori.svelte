@@ -66,7 +66,9 @@
 
 		<!-- Cartridge logo emboss -->
 		<div style="display: flex; position: absolute; top: 45px; left: 50%; transform: translateX(-50%); width: 60%; height: 50px; border-radius: 25px; background-color: {cartridgeColor}; border-bottom: 3px solid {cartridgeDarkColor}; justify-content: center; align-items: center;">
-			<div style="display: flex;">{eventName}</div>
+			<div style="display: flex; font-family: 'Source Serif Pro', monospace; font-size: 36px; font-weight: 700; color: {cartridgeDarkColor}; letter-spacing: 2px;">
+				{eventName}
+			</div>
 		</div>
 
 		<!-- Main label -->
@@ -83,28 +85,42 @@
 
 			<!-- Event title container -->
 			<div style="display: flex; position: absolute; top: 20%; left: 0; width: 100%; justify-content: center; z-index: 3;">
-				<div style="display: flex; font-size: 64px; font-weight: bold; color: {labelTextColor}; text-shadow: 4px 4px 0 #7700AA;">{eventName}</div>
+				<div style="display: flex; font-family: 'Source Serif Pro', sans-serif; font-size: 64px; font-weight: 700; color: {labelTextColor}; text-shadow: 3px 3px 0px #7700AA;">
+					{eventName}
+				</div>
 			</div>
 
 			<!-- Attendee info -->
 			<div style="display: flex; position: absolute; bottom: 30px; left: 20px; flex-direction: column; z-index: 3;">
-				<div style="display: flex; font-size: 14px; color: {textLightColor}; opacity: 0.8;">ATTENDEE</div>
-				<div style="display: flex; font-size: 24px; font-weight: bold; color: {textLightColor}; text-shadow: 1px 1px 0 #000000;">{attendeeName}</div>
+				<div style="display: flex; font-family: 'Source Serif Pro', sans-serif; font-size: 14px; font-weight: 400; color: {textLightColor}; opacity: 0.8;">
+					ATTENDEE
+				</div>
+				<div style="display: flex; font-family: 'Source Serif Pro', sans-serif; font-size: 24px; font-weight: 700; color: {textLightColor}; text-shadow: 1px 1px 0px #000000;">
+					{attendeeName}
+				</div>
 			</div>
 
 			<!-- Ticket number -->
 			<div style="display: flex; position: absolute; bottom: 30px; right: 20px; flex-direction: column; align-items: flex-end; z-index: 3;">
-				<div style="display: flex; font-size: 14px; color: {textLightColor}; opacity: 0.8;">TICKET #</div>
-				<div style="display: flex; font-size: 24px; font-weight: bold; color: {textLightColor}; text-shadow: 1px 1px 0 #000000;">{ticketNumber}</div>
+				<div style="display: flex; font-family: 'Source Serif Pro', sans-serif; font-size: 14px; font-weight: 400; color: {textLightColor}; opacity: 0.8;">
+					TICKET #
+				</div>
+				<div style="display: flex; font-family: 'Source Serif Pro', sans-serif; font-size: 24px; font-weight: 700; color: {textLightColor}; text-shadow: 1px 1px 0px #000000;">
+					{ticketNumber}
+				</div>
 			</div>
 		</div>
 
 		<!-- Side information labels -->
 		<div style="display: flex; position: absolute; bottom: 40px; left: 20px; transform: rotate(-90deg); transform-origin: left bottom;">
-			<div style="display: flex; font-size: 14px; color: {textColor};">{eventDate}</div>
+			<div style="display: flex; font-family: 'Source Serif Pro', monospace; font-size: 14px; font-weight: 500; color: {textColor};">
+				{eventDate}
+			</div>
 		</div>
 		<div style="display: flex; position: absolute; bottom: 40px; right: 20px; transform: rotate(90deg); transform-origin: right bottom;">
-			<div style="display: flex; font-size: 14px; color: {textColor};">{eventLocation}</div>
+			<div style="display: flex; font-family: 'Source Serif Pro', monospace; font-size: 14px; font-weight: 500; color: {textColor};">
+				{eventLocation}
+			</div>
 		</div>
 
 		<!-- Bottom connector -->
@@ -120,6 +136,8 @@
 
 	<!-- Footer -->
 	<div style="display: flex; position: absolute; bottom: 10px; left: 20px;">
-		<div style="display: flex; font-size: 12px; color: #999;">Powered by SvelteKit &amp; Satori • Seed: {seed}</div>
+		<div style="display: flex; font-family: 'Source Serif Pro', monospace; font-size: 12px; font-weight: 400; color: #999;">
+			Powered by SvelteKit &amp; Satori • Seed: {seed}
+		</div>
 	</div>
 </div>
