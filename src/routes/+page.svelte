@@ -17,7 +17,9 @@
 	let { width, height } = $derived(parseQuery($page.url.searchParams));
 
 	let title = $derived(`Dynamic Svelte social image - "${data.seed}"`);
-	let description = $derived('This card was generated from a Svelte component.');
+	let description = $derived(
+		'This card was generated dynamically using Svelte, Satori, and resvg to create a unique hacker-style ticket for the event. Each ticket is customized with user details.'
+	);
 </script>
 
 <svelte:head>
@@ -28,7 +30,7 @@
 		content={description}
 		name="description"
 	/><meta content={description} property="og:description" /><meta
-		content="{base}/?seed={data.seed}"
+		content="{base}/satori?seed={data.seed}"
 		property="og:image"
 	/></svelte:head
 >
