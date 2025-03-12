@@ -1,22 +1,6 @@
 <script lang="ts">
 	import seedrandom from 'seedrandom';
 
-	/**
-	 * @typedef {Object} Props
-	 * @property {number} [width]
-	 * @property {number} [height]
-	 * @property {string} [seed]
-	 * @property {boolean} [satori]
-	 * @property {string} [eventName]
-	 * @property {string} [eventDate]
-	 * @property {string} [eventLocation]
-	 * @property {string} [attendeeName]
-	 * @property {string} [attendeeUsername]
-	 * @property {string} [ticketNumber]
-	 * @property {string} [avatarUrl]
-	 */
-
-	/** @type {Props} */
 	let {
 		width = 750,
 		height = 393,
@@ -43,103 +27,10 @@
 	];
 
 	const bgColor = '#0a0a16'; // Dark blue-black background
-	const primaryColor = cyberColors[Math.floor(rng() * cyberColors.length)];
-	const secondaryColor =
-		cyberColors[(Math.floor(rng() * cyberColors.length) + 2) % cyberColors.length];
 
-	/**
-	 * @param {number} upper
-	 * @param {number} lower
-	 */
 	function random(upper: number, lower: number) {
 		const result = rng() * (upper - lower) + lower;
 		return result;
-	}
-
-	// Generate grid lines
-	function generateGridLines() {
-		const horizontalLines = [];
-		const verticalLines = [];
-		const horizontalCount = 12;
-		const verticalCount = 20;
-
-		// Horizontal grid lines
-		for (let i = 0; i <= horizontalCount; i++) {
-			const y = (height / horizontalCount) * i;
-			horizontalLines.push({
-				x1: 0,
-				y1: y,
-				x2: width,
-				y2: y,
-				opacity: i % 3 === 0 ? 0.4 : 0.1
-			});
-		}
-
-		// Vertical grid lines
-		for (let i = 0; i <= verticalCount; i++) {
-			const x = (width / verticalCount) * i;
-			verticalLines.push({
-				x1: x,
-				y1: 0,
-				x2: x,
-				y2: height,
-				opacity: i % 4 === 0 ? 0.4 : 0.1
-			});
-		}
-
-		return { horizontalLines, verticalLines };
-	}
-
-	const { horizontalLines, verticalLines } = generateGridLines();
-
-	// Generate digital noise
-	function generateDigitalNoise() {
-		const noiseElements = [];
-		const noiseCount = 150;
-
-		for (let i = 0; i < noiseCount; i++) {
-			const x = random(width, 0);
-			const y = random(height, 0);
-			const size = random(3, 1);
-			const opacity = random(0.5, 0.1);
-
-			noiseElements.push({ x, y, size, opacity });
-		}
-
-		return noiseElements;
-	}
-
-	const noiseElements = generateDigitalNoise();
-
-	// Generate binary pattern as rectangles instead of text
-	function generateBinaryPattern() {
-		const patterns = [];
-		const patternCount = 5;
-		const bitsPerPattern = 30;
-
-		for (let i = 0; i < patternCount; i++) {
-			const bits = [];
-			const x = random(width - 300, 50);
-			const y = random(height - 50, 50);
-			const bitSize = random(8, 4);
-			const spacing = bitSize + 2;
-
-			for (let j = 0; j < bitsPerPattern; j++) {
-				if (Math.floor(random(2, 0)) === 1) {
-					bits.push({
-						x: x + j * spacing,
-						y,
-						width: bitSize,
-						height: bitSize,
-						opacity: random(0.4, 0.1)
-					});
-				}
-			}
-
-			patterns.push(bits);
-		}
-
-		return patterns.flat();
 	}
 
 	function randomItem(arr: any[]) {
