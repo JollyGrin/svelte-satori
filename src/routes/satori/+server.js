@@ -1,4 +1,4 @@
-import Image from '../../lib/Dots.svelte';
+import RenderImage from '../../lib/Dots.svelte';
 import { parseQuery } from '$lib/parse';
 import { componentToPng } from '$lib/renderImage';
 import { read } from '$app/server';
@@ -31,5 +31,5 @@ export const GET = async ({ url }) => {
 	// component, props, height, width
 	// The function already returns a Response with correct headers
 	// @ts-ignore - Type mismatch between Svelte component and expected ComponentType
-	return componentToPng(Image, props, height, width);
+	return componentToPng(RenderImage, props, height, width);
 };

@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
 	import seedrandom from 'seedrandom';
 
 	/**
@@ -21,7 +21,7 @@
 		width = 750,
 		height = 393,
 		seed = 'xylophone',
-		satori = false,
+		satori = true,
 		eventName = 'Onion DAO',
 		eventDate = 'June • July 2025 ',
 		eventLocation = 'Chicago, IL, USA',
@@ -51,7 +51,7 @@
 	 * @param {number} upper
 	 * @param {number} lower
 	 */
-	function random(upper, lower) {
+	function random(upper: number, lower: number) {
 		const result = rng() * (upper - lower) + lower;
 		return result;
 	}
@@ -142,231 +142,48 @@
 		return patterns.flat();
 	}
 
-	const binaryPatterns = generateBinaryPattern();
-
-	// Generate barcode for ticket
-	function generateBarcodeLines() {
-		const lines = [];
-		const lineCount = 30;
-		const maxHeight = 50;
-		const lineWidth = 2;
-		const totalWidth = lineCount * 3;
-
-		for (let i = 0; i < lineCount; i++) {
-			const height = random(maxHeight, 15);
-			lines.push({
-				x: i * 3,
-				height,
-				width: lineWidth
-			});
-		}
-
-		return { lines, totalWidth };
+	function randomItem(arr: any[]) {
+		const idx = Math.floor(random(arr.length, 0));
+		return arr[idx];
 	}
 
-	const { lines: barcodeLines, totalWidth: barcodeWidth } = generateBarcodeLines();
+	const sizes = [1, 2, 3, 5, 8, 13];
 
-	// Generate a simple circuit pattern
-	function generateCircuitLines() {
-		const lines = [];
-		const points = [];
-		const lineCount = 8;
-		const pointCount = 4;
-
-		// Generate random circuit points
-		for (let i = 0; i < pointCount; i++) {
-			points.push({
-				x: random(width * 0.8, width * 0.2),
-				y: random(height * 0.8, height * 0.2)
-			});
-		}
-
-		// Connect points with lines
-		for (let i = 0; i < lineCount; i++) {
-			const start = points[i % points.length];
-			const end = points[(i + 1) % points.length];
-
-			// Add some randomization for more circuit-like appearance
-			const midX = (start.x + end.x) / 2 + random(40, -40);
-			const midY = (start.y + end.y) / 2 + random(40, -40);
-
-			lines.push({
-				x1: start.x,
-				y1: start.y,
-				x2: midX,
-				y2: start.y,
-				color: i % 2 === 0 ? primaryColor : secondaryColor,
-				opacity: random(0.8, 0.4)
-			});
-
-			lines.push({
-				x1: midX,
-				y1: start.y,
-				x2: midX,
-				y2: midY,
-				color: i % 2 === 0 ? primaryColor : secondaryColor,
-				opacity: random(0.8, 0.4)
-			});
-
-			lines.push({
-				x1: midX,
-				y1: midY,
-				x2: midX,
-				y2: end.y,
-				color: i % 2 === 0 ? primaryColor : secondaryColor,
-				opacity: random(0.8, 0.4)
-			});
-
-			lines.push({
-				x1: midX,
-				y1: end.y,
-				x2: end.x,
-				y2: end.y,
-				color: i % 2 === 0 ? primaryColor : secondaryColor,
-				opacity: random(0.8, 0.4)
-			});
-		}
-
-		return { lines, points };
-	}
-
-	const { lines: circuitLines, points: circuitPoints } = generateCircuitLines();
+	let points = new Array(100).fill(null).map(() => ({
+		x: random(width, 0),
+		y: random(height, 0),
+		color: '#fff',
+		size: randomItem(sizes)
+	}));
 </script>
 
 <div
-	class="ticket-container"
-	style="max-width: {width}px; background-color: {bgColor}; display: flex; flex-direction: column; padding: 20px; font-family: 'Source Serif Pro', monospace;"
+	style="background-color: {bgColor}; max-width: {width}px; display: flex; position: relative; width: 100%;"
 	style:height={satori ? `${height}px` : undefined}
 >
-	<!-- Background grid effect -->
-	<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" class="background-grid">
-		<!-- Grid lines -->
-		{#each horizontalLines as { x1, y1, x2, y2, opacity }}
-			<line {x1} {y1} {x2} {y2} stroke={primaryColor} stroke-opacity={opacity} />
-		{/each}
-
-		{#each verticalLines as { x1, y1, x2, y2, opacity }}
-			<line {x1} {y1} {x2} {y2} stroke={primaryColor} stroke-opacity={opacity} />
-		{/each}
-
-		<!-- Digital noise -->
-		{#each noiseElements as { x, y, size, opacity }}
-			<rect {x} {y} width={size} height={size} fill={secondaryColor} fill-opacity={opacity} />
-		{/each}
-
-		<!-- Circuit pattern -->
-		{#each circuitLines as { x1, y1, x2, y2, color, opacity }}
-			<line {x1} {y1} {x2} {y2} stroke={color} stroke-opacity={opacity} stroke-width="1.5" />
-		{/each}
-
-		{#each circuitPoints as { x, y }}
-			<circle cx={x} cy={y} r="3" fill={primaryColor} />
-		{/each}
-
-		<!-- Binary patterns (rectangles instead of text) -->
-		{#each binaryPatterns as { x, y, width, height, opacity }}
-			<rect {x} {y} {width} {height} fill={primaryColor} fill-opacity={opacity} />
-		{/each}
-	</svg>
-
-	<div class="ticket-content" style="display: flex; justify-content: space-between; position: relative; z-index: 5; padding: 24px;">
-		<!-- Left section - Avatar and Attendee info -->
-		<div
-			class="attendee-section"
-			style="display: flex; flex-direction: column; align-items: center; padding: 10px;"
+	<div
+		style="background-color: {bgColor}; width: 100%;"
+		style:display="flex"
+		style:position="relative"
+	>
+		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}">
+			{#each points as { x, y, color, size }}
+				<circle cx={x} cy={y} r={size} fill={color} />
+			{/each}
+		</svg>
+		<p
+			class="seed"
+			style:transform={`translateX(${width / 2}px) translateX(-50%);`}
+			style:position={'absolute'}
+			style:color="#fff"
+			style:font-size={'50px'}
 		>
-			<div
-				class="avatar-container"
-				style="display: flex; justify-content: center; align-items: center; width: 80px; height: 80px; border-radius: 4px; overflow: hidden; background-color: rgba(0,0,0,0.3);"
-			>
-				{#if avatarUrl}
-					<img src={avatarUrl} alt={attendeeName} class="avatar" style="display: flex; width: 100%; height: 100%; object-fit: cover;" />
-				{:else}
-					<div
-						class="avatar-placeholder"
-						style="border: 2px solid {primaryColor}; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%; font-size: 32px; font-weight: bold; color: white; background-color: rgba(0,0,0,0.5);"
-					>
-						{attendeeName.charAt(0)}
-					</div>
-				{/if}
-			</div>
-			<div
-				class="attendee-info"
-				style="display: flex; flex-direction: column; align-items: center; margin-top: 10px; gap: 4px;"
-			>
-				<div class="attendee-name" style="display: flex; color: {primaryColor}; margin: 0; font-size: 24px; font-weight: bold;">
-					{attendeeName}
-				</div>
-				<div class="attendee-username" style="display: flex; margin: 0; font-size: 16px; color: white;">{attendeeUsername}</div>
-			</div>
-		</div>
-
-		<!-- Right section - Event details and barcode -->
-		<div class="event-section" style="display: flex; flex-direction: column; align-items: center; padding: 10px;">
-			<div
-				class="event-details"
-				style="display: flex; flex-direction: column; align-items: center; margin-bottom: 10px; gap: 4px;"
-			>
-				<div class="event-name" style="display: flex; margin: 0; font-size: 22px; font-weight: bold; color: white;">{eventName}</div>
-				<div class="event-datetime" style="display: flex; margin: 0; font-size: 16px; color: white;">{eventDate}</div>
-				<div class="event-location" style="display: flex; margin: 0; font-size: 14px; color: white;">{eventLocation}</div>
-			</div>
-
-			<div
-				class="ticket-barcode"
-				style="display: flex; flex-direction: column; align-items: center; margin-top: 10px;"
-			>
-				<svg width={barcodeWidth} height="60" viewBox="0 0 {barcodeWidth} 60" style="display: flex;">
-					{#each barcodeLines as { x, width, height }}
-						<rect {x} y={0} {width} {height} fill={primaryColor} />
-					{/each}
-				</svg>
-				<div class="ticket-number" style="display:flex; color: white; margin-top: 5px; font-size: 14px;">
-					{ticketNumber}
-				</div>
-			</div>
-
-			<!-- Social icons in the style of the inspiration -->
-			<div class="social-icons" style="display: flex; justify-content: space-between; margin-top: 15px; gap: 10px;">
-				<div
-					class="icon"
-					style="border: 1px solid {primaryColor}; color: {primaryColor}; display: flex; justify-content: center; align-items: center; width: 30px; height: 30px; border-radius: 4px;"
-				>
-					#
-				</div>
-				<div
-					class="icon"
-					style="border: 1px solid {primaryColor}; color: {primaryColor}; display: flex; justify-content: center; align-items: center; width: 30px; height: 30px; border-radius: 4px;"
-				>
-					○
-				</div>
-				<div
-					class="icon"
-					style="border: 1px solid {primaryColor}; color: {primaryColor}; display: flex; justify-content: center; align-items: center; width: 30px; height: 30px; border-radius: 4px;"
-				>
-					○
-				</div>
-			</div>
-		</div>
+			{seed}
+		</p>
 	</div>
-
-	<!-- Glitch effect separator line -->
-	<div class="glitch-line" style="background-color: {primaryColor}; display: flex; height: 2px; width: 100%; margin-top: 10px;"></div>
 </div>
 
 <style>
-	.ticket-container {
-		position: relative;
-		border-radius: 8px;
-		overflow: hidden;
-		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-		font-family: 'Source Serif Pro', monospace;
-		display: flex;
-		flex-direction: column;
-		color: white;
-		border: 1px solid rgba(255, 255, 255, 0.1);
-	}
-
 	.background-grid {
 		position: absolute;
 		top: 0;
@@ -374,16 +191,6 @@
 		width: 100%;
 		height: 100%;
 		z-index: 0;
-	}
-
-	.ticket-content {
-		position: relative;
-		z-index: 1;
-		display: flex;
-		padding: 24px;
-		height: 100%;
-		gap: 24px;
-		backdrop-filter: blur(2px);
 	}
 
 	.attendee-section {
@@ -468,22 +275,6 @@
 		opacity: 0.7;
 	}
 
-	.ticket-barcode {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		background-color: rgba(255, 255, 255, 0.9);
-		padding: 8px;
-		border-radius: 2px;
-		align-self: flex-end;
-	}
-
-	.ticket-number {
-		font-size: 12px;
-		margin: 4px 0 0 0;
-		font-weight: bold;
-	}
-
 	.social-icons {
 		display: flex;
 		gap: 8px;
@@ -500,62 +291,5 @@
 		justify-content: center;
 		font-weight: bold;
 		border-radius: 4px;
-	}
-
-	.glitch-line {
-		height: 2px;
-		margin-top: auto;
-		width: 100%;
-		position: relative;
-		overflow: hidden;
-	}
-
-	.glitch-line::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: 0;
-		height: 100%;
-		width: 100%;
-		background: linear-gradient(
-			90deg,
-			transparent 0%,
-			rgba(255, 255, 255, 0.8) 50%,
-			transparent 100%
-		);
-		animation: glitch 3s infinite linear;
-	}
-
-	@keyframes glitch {
-		0% {
-			transform: translateX(-100%);
-		}
-		100% {
-			transform: translateX(100%);
-		}
-	}
-
-	@media (max-width: 600px) {
-		.ticket-content {
-			flex-direction: column;
-			gap: 16px;
-		}
-
-		.attendee-section {
-			flex-direction: row;
-			align-items: center;
-		}
-
-		.event-section {
-			align-items: flex-start;
-		}
-
-		.ticket-barcode {
-			align-self: flex-start;
-		}
-
-		.social-icons {
-			align-self: flex-start;
-		}
 	}
 </style>

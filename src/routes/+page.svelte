@@ -37,7 +37,9 @@
 
 <h1>Dynamic social images with Svelte</h1>
 {#key data.seed}
-	<Image seed={data.seed} {width} {height} />
+	<div style:position="relative">
+		<Image seed={data.seed} {width} {height} />
+	</div>
 {/key}
 <form
 	action="/"
