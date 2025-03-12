@@ -4,6 +4,7 @@ import { html as toReactNode } from 'satori-html';
 import { read } from '$app/server';
 import { render } from 'svelte/server';
 import sourceSerifPro from '$lib/fonts/SourceSerifPro-Regular.ttf';
+import jersey from '$lib/fonts/jersey.ttf';
 
 /**
  * Renders a Svelte component to a PNG
@@ -15,7 +16,7 @@ import sourceSerifPro from '$lib/fonts/SourceSerifPro-Regular.ttf';
  */
 export async function componentToPng(component, props, height, width) {
 	// Load font data before rendering
-	const fontData = await read(sourceSerifPro).arrayBuffer();
+	const fontData = await read(jersey).arrayBuffer();
 
 	// Use the Svelte 4+ render API from svelte/server
 	const result = render(component, { props });
@@ -23,7 +24,7 @@ export async function componentToPng(component, props, height, width) {
 	// @ts-ignore - The types between satori-html and ReactNode have incompatibilities
 	// but the runtime behavior is compatible
 	const markup = toReactNode(
-		`<div style="display: flex; font-family: 'Source Serif Pro', monospace;">${result.body}</div>`
+		`<div style="display: flex; font-family: 'Jersey 10', sans-serif;">${result.body}</div>`
 	);
 
 	// Define default styles to ensure all divs have an explicit display property
