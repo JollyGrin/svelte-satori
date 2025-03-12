@@ -30,7 +30,7 @@
 		content={description}
 		name="description"
 	/><meta content={description} property="og:description" /><meta
-		content="{base}/satori?seed={data.seed}"
+		content="https://social-card-gules.vercel.app/satori?seed={data.seed}"
 		property="og:image"
 	/></svelte:head
 >
