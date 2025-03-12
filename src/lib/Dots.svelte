@@ -64,7 +64,7 @@
 		</svg>
 		<p
 			class="seed"
-			style:transform={`translateX(${width / 2}px) translateX(-50%);`}
+			style:transform={`translateX(${width / 2}px) translateY(${height / 2}px);`}
 			style:position={'absolute'}
 			style:color="#fff"
 			style:font-size={'50px'}
@@ -75,112 +75,4 @@
 </div>
 
 <style>
-	.background-grid {
-		position: absolute;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		z-index: 0;
-	}
-
-	.attendee-section {
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
-		gap: 16px;
-		flex: 1;
-	}
-
-	.avatar-container {
-		width: 80px;
-		height: 80px;
-		border-radius: 4px;
-		overflow: hidden;
-		background-color: rgba(0, 0, 0, 0.3);
-	}
-
-	.avatar {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-	}
-
-	.avatar-placeholder {
-		width: 100%;
-		height: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 32px;
-		font-weight: bold;
-		color: white;
-		background-color: rgba(0, 0, 0, 0.5);
-	}
-
-	.attendee-info {
-		display: flex;
-		flex-direction: column;
-		gap: 4px;
-	}
-
-	.attendee-name {
-		font-size: 24px;
-		font-weight: bold;
-		margin: 0;
-		text-transform: uppercase;
-		letter-spacing: 1px;
-	}
-
-	.attendee-username {
-		font-size: 16px;
-		opacity: 0.7;
-		margin: 0;
-	}
-
-	.event-section {
-		display: flex;
-		flex-direction: column;
-		justify-content: space-between;
-		flex: 1;
-	}
-
-	.event-details {
-		display: flex;
-		flex-direction: column;
-		gap: 4px;
-	}
-
-	.event-name {
-		font-size: 18px;
-		font-weight: bold;
-		margin: 0;
-		text-transform: uppercase;
-		letter-spacing: 1px;
-	}
-
-	.event-datetime,
-	.event-location {
-		font-size: 14px;
-		margin: 0;
-		opacity: 0.7;
-	}
-
-	.social-icons {
-		display: flex;
-		gap: 8px;
-		align-self: flex-end;
-		margin-top: 16px;
-	}
-
-	.icon {
-		width: 32px;
-		height: 32px;
-		background-color: transparent;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-weight: bold;
-		border-radius: 4px;
-	}
 </style>
