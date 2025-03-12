@@ -144,13 +144,13 @@
 				style="display: flex; width: 100%; height: 100%; flex-direction: column; justify-content: center; align-items: center; z-index: 10; padding: 20px;"
 			>
 				<span
-					style="display: flex; font-size: 64px; font-weight: 700; color: #FFFFFF; text-shadow: 3px 3px 0 #000000; text-align: center; margin-bottom: 20px;"
+					style="display: flex; width: 80%; justify-content: center; font-size: 72px; font-weight: 900; color: #000000; background-color: rgba(255,255,255,0.8); border-radius: 10px; padding: 10px; text-align: center; margin-bottom: 20px;"
 				>
 					{attendeeName}
 				</span>
 
 				<span
-					style="display: flex; font-size: 36px; font-weight: 700; color: {labelTextColor}; text-shadow: 2px 2px 0 #000000; text-align: center;"
+					style="display: flex; width: 60%; justify-content: center; font-size: 40px; font-weight: 800; color: #000000; background-color: rgba(255,255,255,0.8); border-radius: 10px; padding: 10px; text-align: center;"
 				>
 					{ticketNumber}
 				</span>
