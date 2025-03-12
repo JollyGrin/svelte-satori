@@ -6,6 +6,7 @@
 	import { parseQuery } from '$lib/parse';
 	import '../app.css';
 	import { goto } from '$app/navigation';
+	import { base } from '$app/paths';
 
 	type Props = {
 		data: import('./$types').PageData;
@@ -23,14 +24,11 @@
 	<title>{title}</title><meta content="summary_large_image" name="twitter:card" /><meta
 		content="Dynamic Svelte social images"
 		property="og:site_name"
-	/><meta content={title} property="og:title" /><meta
-		content="https://sveltekit-satori.vercel.app"
-		property="og:url"
-	/><meta content={description} name="description" /><meta
+	/><meta content={title} property="og:title" /><meta content={base} property="og:url" /><meta
 		content={description}
-		property="og:description"
-	/><meta
-		content="https://sveltekit-satori.vercel.app/satori?seed={data.seed}"
+		name="description"
+	/><meta content={description} property="og:description" /><meta
+		content="{base}/?seed={data.seed}"
 		property="og:image"
 	/></svelte:head
 >

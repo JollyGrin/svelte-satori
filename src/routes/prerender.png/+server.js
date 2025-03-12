@@ -10,19 +10,19 @@ export const GET = async () => {
 	const width = 1200;
 	const height = 600;
 	const fontData = await read(sourceSerifPro).arrayBuffer();
-	
+
 	// Hardcoded ticket details
 	const eventName = 'Onion DAO';
 	const eventDate = 'June • July 2025';
 	const eventLocation = 'Chicago, IL, USA';
-	const attendeeName = 'Guest User';
+	const attendeeName = 'deanlol';
 	const attendeeUsername = '/username';
 	const ticketNumber = 'TKT-12345';
-	
+
 	// Colors
 	const bgColor = '#0a0a16'; // Dark blue-black background
 	const primaryColor = '#00ff41'; // Matrix green
-	
+
 	// Define the HTML directly - ensuring all divs have display: flex
 	const html = {
 		type: 'div',
@@ -94,7 +94,7 @@ export const GET = async () => {
 												]
 											}
 										},
-										
+
 										// Attendee info
 										{
 											type: 'div',
@@ -133,7 +133,7 @@ export const GET = async () => {
 									]
 								}
 							},
-							
+
 							// Right column
 							{
 								type: 'div',
@@ -193,7 +193,7 @@ export const GET = async () => {
 												]
 											}
 										},
-										
+
 										// Social icons
 										{
 											type: 'div',
@@ -258,7 +258,7 @@ export const GET = async () => {
 						]
 					}
 				},
-				
+
 				// Footer line
 				{
 					type: 'div',
@@ -274,7 +274,7 @@ export const GET = async () => {
 			]
 		}
 	};
-	
+
 	// Render with satori
 	// @ts-ignore - The html object is compatible with satori but TypeScript doesn't recognize it
 	const svg = await satori(html, {
@@ -288,7 +288,7 @@ export const GET = async () => {
 			}
 		]
 	});
-	
+
 	// Convert to PNG
 	const resvg = new Resvg(svg, {
 		fitTo: {
@@ -296,9 +296,9 @@ export const GET = async () => {
 			value: width
 		}
 	});
-	
+
 	const png = resvg.render();
-	
+
 	return new Response(png.asPng(), {
 		headers: {
 			'content-type': 'image/png'
