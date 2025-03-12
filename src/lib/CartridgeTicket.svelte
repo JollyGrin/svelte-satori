@@ -194,7 +194,7 @@
 		<div
 			style="display:flex; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 80%; height: 30px; background-color: #7F7F7F; display: flex; justify-content: space-around; align-items: flex-start; padding-top: 5px;"
 		>
-			{#each Array(16) as _, i}
+			{#each Array(16) as _}
 				<div
 					style="display:flex; width: 10px; height: 20px; background-color: #D4AF37; border-radius: 1px;"
 				></div>

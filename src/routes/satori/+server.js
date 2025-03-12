@@ -1,4 +1,4 @@
-import RenderImage from '../../lib/Dots.svelte';
+import RenderImage from '../../lib/CartridgeTicketSatori.svelte';
 import { parseQuery } from '$lib/parse';
 import { componentToPng } from '$lib/renderImage';
 import { read } from '$app/server';
