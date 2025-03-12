@@ -32,20 +32,21 @@
 	} = $props();
 
 	const rng = seedrandom(seed);
-	
+
 	// Cyber colors
 	const cyberColors = [
 		'#00ff41', // Matrix green
 		'#39ff14', // Neon green
 		'#0ff0fc', // Cyan
 		'#ff00ff', // Magenta
-		'#ff3131'  // Red
+		'#ff3131' // Red
 	];
-	
+
 	const bgColor = '#0a0a16'; // Dark blue-black background
 	const primaryColor = cyberColors[Math.floor(rng() * cyberColors.length)];
-	const secondaryColor = cyberColors[(Math.floor(rng() * cyberColors.length) + 2) % cyberColors.length];
-	
+	const secondaryColor =
+		cyberColors[(Math.floor(rng() * cyberColors.length) + 2) % cyberColors.length];
+
 	/**
 	 * @param {number} upper
 	 * @param {number} lower
@@ -54,14 +55,14 @@
 		const result = rng() * (upper - lower) + lower;
 		return result;
 	}
-	
+
 	// Generate grid lines
 	function generateGridLines() {
 		const horizontalLines = [];
 		const verticalLines = [];
 		const horizontalCount = 12;
 		const verticalCount = 20;
-		
+
 		// Horizontal grid lines
 		for (let i = 0; i <= horizontalCount; i++) {
 			const y = (height / horizontalCount) * i;
@@ -73,7 +74,7 @@
 				opacity: i % 3 === 0 ? 0.4 : 0.1
 			});
 		}
-		
+
 		// Vertical grid lines
 		for (let i = 0; i <= verticalCount; i++) {
 			const x = (width / verticalCount) * i;
@@ -85,56 +86,63 @@
 				opacity: i % 4 === 0 ? 0.4 : 0.1
 			});
 		}
-		
+
 		return { horizontalLines, verticalLines };
 	}
-	
+
 	const { horizontalLines, verticalLines } = generateGridLines();
-	
+
 	// Generate digital noise
 	function generateDigitalNoise() {
 		const noiseElements = [];
 		const noiseCount = 150;
-		
+
 		for (let i = 0; i < noiseCount; i++) {
 			const x = random(width, 0);
 			const y = random(height, 0);
 			const size = random(3, 1);
 			const opacity = random(0.5, 0.1);
-			
+
 			noiseElements.push({ x, y, size, opacity });
 		}
-		
+
 		return noiseElements;
 	}
-	
+
 	const noiseElements = generateDigitalNoise();
-	
-	// Generate binary code
-	function generateBinaryCode() {
-		const lines = [];
-		const lineCount = 5;
-		const charCount = 30;
-		
-		for (let i = 0; i < lineCount; i++) {
-			let binary = '';
-			for (let j = 0; j < charCount; j++) {
-				binary += Math.floor(random(2, 0));
+
+	// Generate binary pattern as rectangles instead of text
+	function generateBinaryPattern() {
+		const patterns = [];
+		const patternCount = 5;
+		const bitsPerPattern = 30;
+
+		for (let i = 0; i < patternCount; i++) {
+			const bits = [];
+			const x = random(width - 300, 50);
+			const y = random(height - 50, 50);
+			const bitSize = random(8, 4);
+			const spacing = bitSize + 2;
+
+			for (let j = 0; j < bitsPerPattern; j++) {
+				if (Math.floor(random(2, 0)) === 1) {
+					bits.push({
+						x: x + j * spacing,
+						y,
+						width: bitSize,
+						height: bitSize,
+						opacity: random(0.4, 0.1)
+					});
+				}
 			}
-			
-			lines.push({
-				text: binary,
-				x: random(width - 100, 50),
-				y: random(height - 50, 50),
-				opacity: random(0.4, 0.1),
-				size: random(14, 8)
-			});
+
+			patterns.push(bits);
 		}
-		
-		return lines;
+
+		return patterns.flat();
 	}
-	
-	const binaryLines = generateBinaryCode();
+
+	const binaryPatterns = generateBinaryPattern();
 
 	// Generate barcode for ticket
 	function generateBarcodeLines() {
@@ -157,14 +165,14 @@
 	}
 
 	const { lines: barcodeLines, totalWidth: barcodeWidth } = generateBarcodeLines();
-	
+
 	// Generate a simple circuit pattern
 	function generateCircuitLines() {
 		const lines = [];
 		const points = [];
 		const lineCount = 8;
 		const pointCount = 4;
-		
+
 		// Generate random circuit points
 		for (let i = 0; i < pointCount; i++) {
 			points.push({
@@ -172,16 +180,16 @@
 				y: random(height * 0.8, height * 0.2)
 			});
 		}
-		
+
 		// Connect points with lines
 		for (let i = 0; i < lineCount; i++) {
 			const start = points[i % points.length];
 			const end = points[(i + 1) % points.length];
-			
+
 			// Add some randomization for more circuit-like appearance
 			const midX = (start.x + end.x) / 2 + random(40, -40);
 			const midY = (start.y + end.y) / 2 + random(40, -40);
-			
+
 			lines.push({
 				x1: start.x,
 				y1: start.y,
@@ -190,7 +198,7 @@
 				color: i % 2 === 0 ? primaryColor : secondaryColor,
 				opacity: random(0.8, 0.4)
 			});
-			
+
 			lines.push({
 				x1: midX,
 				y1: start.y,
@@ -199,7 +207,7 @@
 				color: i % 2 === 0 ? primaryColor : secondaryColor,
 				opacity: random(0.8, 0.4)
 			});
-			
+
 			lines.push({
 				x1: midX,
 				y1: midY,
@@ -208,7 +216,7 @@
 				color: i % 2 === 0 ? primaryColor : secondaryColor,
 				opacity: random(0.8, 0.4)
 			});
-			
+
 			lines.push({
 				x1: midX,
 				y1: end.y,
@@ -218,16 +226,16 @@
 				opacity: random(0.8, 0.4)
 			});
 		}
-		
+
 		return { lines, points };
 	}
-	
+
 	const { lines: circuitLines, points: circuitPoints } = generateCircuitLines();
 </script>
 
 <div
 	class="ticket-container"
-	style="max-width: {width}px; background-color: {bgColor};"
+	style="max-width: {width}px; background-color: {bgColor}; display: flex; flex-direction: column;"
 	style:height={satori ? `${height}px` : undefined}
 >
 	<!-- Background grid effect -->
@@ -236,77 +244,114 @@
 		{#each horizontalLines as { x1, y1, x2, y2, opacity }}
 			<line {x1} {y1} {x2} {y2} stroke={primaryColor} stroke-opacity={opacity} />
 		{/each}
-		
+
 		{#each verticalLines as { x1, y1, x2, y2, opacity }}
 			<line {x1} {y1} {x2} {y2} stroke={primaryColor} stroke-opacity={opacity} />
 		{/each}
-		
+
 		<!-- Digital noise -->
 		{#each noiseElements as { x, y, size, opacity }}
 			<rect {x} {y} width={size} height={size} fill={secondaryColor} fill-opacity={opacity} />
 		{/each}
-		
+
 		<!-- Circuit pattern -->
 		{#each circuitLines as { x1, y1, x2, y2, color, opacity }}
 			<line {x1} {y1} {x2} {y2} stroke={color} stroke-opacity={opacity} stroke-width="1.5" />
 		{/each}
-		
+
 		{#each circuitPoints as { x, y }}
 			<circle cx={x} cy={y} r="3" fill={primaryColor} />
 		{/each}
-		
-		<!-- Binary code -->
-		{#each binaryLines as { text, x, y, opacity, size }}
-			<text {x} {y} fill={primaryColor} font-family="monospace" font-size={size} opacity={opacity}>{text}</text>
+
+		<!-- Binary patterns (rectangles instead of text) -->
+		{#each binaryPatterns as { x, y, width, height, opacity }}
+			<rect {x} {y} {width} {height} fill={primaryColor} fill-opacity={opacity} />
 		{/each}
 	</svg>
 
-	<div class="ticket-content">
+	<div class="ticket-content" style="display: flex; justify-content: space-between;">
 		<!-- Left section - Avatar and Attendee info -->
-		<div class="attendee-section">
-			<div class="avatar-container">
+		<div
+			class="attendee-section"
+			style="display: flex; flex-direction: column; align-items: center;"
+		>
+			<div
+				class="avatar-container"
+				style="display: flex; justify-content: center; align-items: center;"
+			>
 				{#if avatarUrl}
-					<img src={avatarUrl} alt={attendeeName} class="avatar" />
+					<img src={avatarUrl} alt={attendeeName} class="avatar" style="display: flex;" />
 				{:else}
-					<div class="avatar-placeholder" style="border: 2px solid {primaryColor}">
+					<div
+						class="avatar-placeholder"
+						style="border: 2px solid {primaryColor}; display: flex; justify-content: center; align-items: center; width: 100%; height: 100%;"
+					>
 						{attendeeName.charAt(0)}
 					</div>
 				{/if}
 			</div>
-			<div class="attendee-info">
-				<h2 class="attendee-name" style="color: {primaryColor};">{attendeeName}</h2>
-				<p class="attendee-username">{attendeeUsername}</p>
+			<div
+				class="attendee-info"
+				style="display: flex; flex-direction: column; align-items: center;"
+			>
+				<h2 class="attendee-name" style="display: flex; color: {primaryColor}; margin: 0;">
+					{attendeeName}
+				</h2>
+				<p class="attendee-username" style="display: flex; margin: 0;">{attendeeUsername}</p>
 			</div>
 		</div>
 
 		<!-- Right section - Event details and barcode -->
-		<div class="event-section">
-			<div class="event-details">
-				<h3 class="event-name">{eventName}</h3>
-				<p class="event-datetime">{eventDate}</p>
-				<p class="event-location">{eventLocation}</p>
+		<div class="event-section" style="display: flex; flex-direction: column; align-items: center;">
+			<div
+				class="event-details"
+				style="display: flex; flex-direction: column; align-items: center;"
+			>
+				<h3 class="event-name" style="display: flex; margin: 0;">{eventName}</h3>
+				<p class="event-datetime" style="display: flex; margin: 0;">{eventDate}</p>
+				<p class="event-location" style="display: flex; margin: 0;">{eventLocation}</p>
 			</div>
 
-			<div class="ticket-barcode">
+			<div
+				class="ticket-barcode"
+				style="display: flex; flex-direction: column; align-items: center;"
+			>
 				<svg width={barcodeWidth} height="60" viewBox="0 0 {barcodeWidth} 60">
 					{#each barcodeLines as { x, width, height }}
 						<rect {x} y={0} {width} {height} fill={primaryColor} />
 					{/each}
 				</svg>
-				<p class="ticket-number" style="color: {bgColor};">{ticketNumber}</p>
+				<p class="ticket-number" style="display:flex; color: {bgColor}; margin: 0;">
+					{ticketNumber}
+				</p>
 			</div>
 
 			<!-- Social icons in the style of the inspiration -->
-			<div class="social-icons">
-				<div class="icon" style="border: 1px solid {primaryColor}; color: {primaryColor};">#</div>
-				<div class="icon" style="border: 1px solid {primaryColor}; color: {primaryColor};">○</div>
-				<div class="icon" style="border: 1px solid {primaryColor}; color: {primaryColor};">○</div>
+			<div class="social-icons" style="display: flex; justify-content: space-between;">
+				<div
+					class="icon"
+					style="border: 1px solid {primaryColor}; color: {primaryColor}; display: flex; justify-content: center; align-items: center;"
+				>
+					#
+				</div>
+				<div
+					class="icon"
+					style="border: 1px solid {primaryColor}; color: {primaryColor}; display: flex; justify-content: center; align-items: center;"
+				>
+					○
+				</div>
+				<div
+					class="icon"
+					style="border: 1px solid {primaryColor}; color: {primaryColor}; display: flex; justify-content: center; align-items: center;"
+				>
+					○
+				</div>
 			</div>
 		</div>
 	</div>
 
 	<!-- Glitch effect separator line -->
-	<div class="glitch-line" style="background-color: {primaryColor};"></div>
+	<div class="glitch-line" style="background-color: {primaryColor}; display: flex;"></div>
 </div>
 
 <style>
@@ -315,9 +360,7 @@
 		border-radius: 8px;
 		overflow: hidden;
 		box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-		font-family:
-			'Courier New',
-			monospace;
+		font-family: 'Courier New', monospace;
 		display: flex;
 		flex-direction: column;
 		color: white;
@@ -466,7 +509,7 @@
 		position: relative;
 		overflow: hidden;
 	}
-	
+
 	.glitch-line::before {
 		content: '';
 		position: absolute;
@@ -474,10 +517,15 @@
 		left: 0;
 		height: 100%;
 		width: 100%;
-		background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.8) 50%, transparent 100%);
+		background: linear-gradient(
+			90deg,
+			transparent 0%,
+			rgba(255, 255, 255, 0.8) 50%,
+			transparent 100%
+		);
 		animation: glitch 3s infinite linear;
 	}
-	
+
 	@keyframes glitch {
 		0% {
 			transform: translateX(-100%);
